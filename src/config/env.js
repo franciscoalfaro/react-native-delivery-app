@@ -1,6 +1,4 @@
-import { config } from 'dotenv';
-config();
+import Constants from 'expo-constants';
 
-export default {
-  API_URL: process.env.API_URL,
-};
+const API_URL = Constants.expoConfig.extra.API_URL;
+console.log('API URL:', API_URL);

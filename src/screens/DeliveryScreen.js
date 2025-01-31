@@ -22,3 +22,5 @@ const DeliveryScreen = () => {
     </View>
   );
 };
+
+export default DeliveryScreen;
