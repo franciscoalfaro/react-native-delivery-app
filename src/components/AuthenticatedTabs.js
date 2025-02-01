@@ -38,7 +38,7 @@ const AuthenticatedTabs = () => {
         },
         tabBarBackground: () => (
           <LinearGradient
-            colors={['#059669', '#6ee7b7']} // Gradiente azul
+            colors={['#ff7e5f', '#feb47b']} // Gradiente azul
             start={{ x: 0, y: 1 }} // Inicio del gradiente (izquierda)
             end={{ x: 0, y: 0 }} // Fin del gradiente (derecha)
             style={{ flex: 1}} // Bordes redondeados

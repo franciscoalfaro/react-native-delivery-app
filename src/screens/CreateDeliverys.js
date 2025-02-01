@@ -34,7 +34,7 @@ const CreateDeliverys = () => {
   };
 
   return (
-    <LinearGradient colors={['#059669', '#6ee7b7']} style={styles.container}>
+    <LinearGradient colors={['#ff7e5f', '#feb47b']} style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}

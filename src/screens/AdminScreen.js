@@ -37,7 +37,7 @@ const AdminScreen = ({ navigation }) => {
   );
 
   return (
-    <LinearGradient colors={['#059669', '#6ee7b7']} style={styles.container}>
+    <LinearGradient colors={['#ff7e5f', '#feb47b']} style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Header Section */}
         <View style={styles.header}>
@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   primaryButton: {
-    backgroundColor: '#3b82f6',
+    backgroundColor: '#ff5722',
   },
   secondaryButton: {
-    backgroundColor: '#059669',
+    backgroundColor: '#2d9cdb',
   },
   accentButton: {
-    backgroundColor: '#f59e0b',
+    backgroundColor: '#ffb703',
   },
   buttonText: {
     color: 'white',

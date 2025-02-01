@@ -43,7 +43,7 @@ const PublicScreen = () => {
   };
 
   return (
-    <LinearGradient colors={['#059669', '#6ee7b7']} style={styles.container}>
+    <LinearGradient colors={['#ff7e5f', '#feb47b']} style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
@@ -163,12 +163,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#764ba2',
-    borderRadius: 10,
+    backgroundColor: '#ff7e5f',
+    borderRadius: 25,
     padding: 15,
     alignItems: 'center',
     marginBottom: 20,
-  },
+    borderWidth: 2, // Agrega un borde
+    borderColor: 'white', // Borde blanco
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Para Android
+  },  
   buttonText: {
     color: 'white',
     fontSize: 16,

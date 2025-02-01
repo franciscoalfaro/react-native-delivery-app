@@ -68,7 +68,7 @@ const LoginScreen = ({ navigation }) => {
     }
   };
   return (
-    <LinearGradient colors={['#059669', '#6ee7b7']} style={styles.container} >
+    <LinearGradient colors={['#ff7e5f', '#feb47b']} style={styles.container} >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container} >
         <View style={styles.content}>
           <Image
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    padding: 35,
+    padding: 20,
   },
   logo: {
     width: 120,
@@ -204,12 +204,19 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   button: {
-    backgroundColor: '#764ba2',
+    backgroundColor: '#ff7e5f',
     borderRadius: 25,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 15,
+    marginBottom: 20,
+    borderWidth: 2, // Agrega un borde
+    borderColor: 'white', // Borde blanco
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // Para Android
   },
   buttonText: {
     color: 'white',
