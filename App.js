@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAPI } from './src/context/APIContext';
@@ -35,45 +36,39 @@ const MainNavigator = () => {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen  name="Admin" 
-            component={AdminScreen} 
+          <Stack.Screen
+            name="Admin"
+            component={AdminScreen}
             options={{
-              title: 'Panel de Control',
-              headerRight: () => (
-                <Button
-                  onPress={handleLogout}
-                  title="Cerrar Sesión"
-                  color="#fff"
-                />
-              ),
+              headerShown: false,
             }}
           />
-          <Stack.Screen 
-            name="Delivery" 
-            component={DeliveryScreen} 
-            options={{ title: 'Gestión de Repartos' }}
+          <Stack.Screen
+            name="Delivery"
+            component={DeliveryScreen}
+            options={{ headerShown: false }}
           />
-          <Stack.Screen 
-            name="AssignOrder" 
-            component={AssignOrderScreen} 
-            options={{ title: 'Asignar Órdenes' }}
+          <Stack.Screen
+            name="AssignOrder"
+            component={AssignOrderScreen}
+            options={{ headerShown: false}}
           />
-          <Stack.Screen 
-            name="Create" 
-            component={CreateDeliverys} 
-            options={{ title: 'Nuevo Repartidor' }}
+          <Stack.Screen
+            name="Create"
+            component={CreateDeliverys}
+            options={{ headerShown: false }}
           />
         </>
       ) : (
         <>
-          <Stack.Screen 
-            name="Login" 
-            component={LoginScreen} 
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
             options={{ headerShown: false }}
           />
-          <Stack.Screen 
-            name="Public" 
-            component={PublicScreen} 
+          <Stack.Screen
+            name="Public"
+            component={PublicScreen}
             options={{ title: 'Página Pública' }}
           />
         </>

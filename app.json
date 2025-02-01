@@ -3,7 +3,7 @@
     "name": "react-native-delivery-app",
     "slug": "react-native-delivery-app",
     "extra": {
-      "API_URL": "http://localhost:3011/api/"
+      "API_URL": "http://10.0.2.2:3009/api/"
     },
     "version": "1.0.0",
     "orientation": "portrait",

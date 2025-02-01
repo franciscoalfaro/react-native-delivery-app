@@ -49,25 +49,29 @@ export const APIProvider = ({ children }) => {
 
 
   const Login = async (email, password) => {
-    console.log(email, password);
     try {
       const response = await fetch(`${API_URL}user/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      console.log(response)
-  
+        body: JSON.stringify({ email, password }),
+      });      
+      setIsAuthenticated(true); // Esto activará la navegación condicional
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-  
       const data = await response.json();
-      console.log('Respuesta:', data);
+      console.log(data)
+      console.log(data.status)
+      console.log(data.token)
+      console.log(data.role)
+
+      return response.data;
     } catch (error) {
-      console.error('Error en la solicitud:', error);
+      setIsAuthenticated(false);
+      throw error;
     }
   };
+
   
 
   return (

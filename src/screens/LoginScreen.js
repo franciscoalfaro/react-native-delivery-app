@@ -17,23 +17,18 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     if (!email || !password) return;
     setIsLoading(true);
-
+    setErrorMessage('');
+  
     try {
-
-      // Simular proceso de autenticación
       await Login(email, password);
+      
 
-      setTimeout(() => {
-        setIsLoading(false);
-        navigation.navigate('Admin');
-      }, 1500);
     } catch (error) {
       setErrorMessage('Credenciales incorrectas');
+    } finally {
       setIsLoading(false);
     }
-
   };
-
   return (
     <LinearGradient colors={['#059669', '#6ee7b7']} style={styles.container} >
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container} >
