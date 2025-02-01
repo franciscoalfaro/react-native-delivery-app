@@ -121,12 +121,15 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 20,
+    justifyContent: 'center',
+    padding: 25,
+    
   },
   header: {
     alignItems: 'center',
     marginBottom: 20,
     paddingVertical: 15,
+    marginTop: 20,
   },
   title: {
     fontSize: 26,

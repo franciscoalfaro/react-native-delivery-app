@@ -85,13 +85,17 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: 25,
   },
+
   header: {
     alignItems: 'center',
-    marginBottom: 25,
+    marginBottom: 40,
     paddingVertical: 15,
+    marginTop: 20,
+
   },
+  
   title: {
     fontSize: 26,
     fontWeight: '700',

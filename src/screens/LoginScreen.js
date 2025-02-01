@@ -15,16 +15,54 @@ const LoginScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
-    if (!email || !password) return;
+    // Validación básica
+    if (!email || !password) {
+      setErrorMessage('Email y contraseña son requeridos');
+      return;
+    }
+  
+    // Resetear estados
     setIsLoading(true);
     setErrorMessage('');
   
     try {
-      await Login(email, password);
+      // Intentar login
+      const response = await Login(email, password);
       
+      // Manejar respuesta exitosa
+      if (response && response.user) {
+        // Aquí podrías hacer algo con los datos del usuario
+        console.log('Usuario autenticado:', response.user);
+        
 
+      }
+      
+      // La navegación se manejará automáticamente por el cambio en isAuthenticated
     } catch (error) {
-      setErrorMessage('Credenciales incorrectas');
+      // Manejo de errores específicos
+      let errorMessage = 'Error en la autenticación';
+      
+      if (error.response) {
+        // Error de la API
+        switch (error.response.status) {
+          case 401:
+            errorMessage = 'Credenciales incorrectas';
+            break;
+          case 500:
+            errorMessage = 'Error del servidor, intenta nuevamente';
+            break;
+          default:
+            errorMessage = error.response.data?.message || errorMessage;
+        }
+      } else if (error.request) {
+        // Error de red
+        errorMessage = 'Problema de conexión, verifica tu red';
+      } else {
+        // Otros errores
+        errorMessage = error.message || errorMessage;
+      }
+      
+      setErrorMessage(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -3,7 +3,8 @@
     "name": "react-native-delivery-app",
     "slug": "react-native-delivery-app",
     "extra": {
-      "API_URL": "http://10.0.2.2:3009/api/"
+      "API_URL": "http://127.0.0.1:3000/api/",
+      "API_AND":"http://10.0.2.2:3011/api"
     },
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,9 +17,13 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Esta app usa la ubicación para mostrar la posición del repartidor."
+      }
     },
     "android": {
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

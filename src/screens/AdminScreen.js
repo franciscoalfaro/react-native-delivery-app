@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    flexGrow: 1,
-    padding: 20,
+    flex: 1,
+    justifyContent: 'center',
+    padding: 25,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 30,
-    paddingVertical: 15,
+    marginBottom: 40,
   },
   title: {
     fontSize: 26,
