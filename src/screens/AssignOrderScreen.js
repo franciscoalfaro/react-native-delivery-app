@@ -12,7 +12,7 @@ const AssignOrderScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const listDelivery = delivery.map(deliver => ({ id: deliver.id, name: deliver.name }));
+  const listDelivery = delivery.map(deliver => ({ id: deliver._id, name: deliver.name }));
 
   const handleAssignOrder = async () => {
     if (!orderId || !selectedDelivery) return;
@@ -70,9 +70,10 @@ const AssignOrderScreen = () => {
                 <Picker.Item label="Selecciona un repartidor" value="" />
                 {listDelivery.map(delivery => (
                   <Picker.Item 
-                    key={delivery.id} 
+                    key={delivery._id} 
                     label={delivery.name} 
-                    value={delivery.id} 
+                    value={delivery._id} 
+                    
                   />
                 ))}
               </Picker>

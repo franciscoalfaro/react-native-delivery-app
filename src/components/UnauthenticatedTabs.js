@@ -24,7 +24,7 @@ const UnauthenticatedTabs = () => {
         },
         tabBarBackground: () => (
           <LinearGradient
-            colors={['#ff7e5f', '#feb47b']} // Gradiente azul
+            colors={['#ff5733', '#ff914d']} 
             start={{ x: 0, y: 1 }} // Inicio del gradiente (izquierda)
             end={{ x: 0, y: 0 }} // Fin del gradiente (derecha)
             style={{ flex: 1}} // Bordes redondeados
@@ -32,9 +32,9 @@ const UnauthenticatedTabs = () => {
         ),
         // Estilos personalizados
         tabBarStyle: {
-          height: 80, // Altura de la barra
-          paddingBottom: 10, // Espaciado inferior
-          paddingTop: 10, // Espaciado superior
+          //height: 80, // Altura de la barra
+          ///paddingBottom: 10, // Espaciado inferior
+          //paddingTop: 10, // Espaciado superior
           shadowColor: '#000', // Sombra
           shadowOffset: { width: 0, height: -2 },
           shadowOpacity: 0.1,

@@ -6,7 +6,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const AdminScreen = ({ navigation }) => {
   const { delivery } = useAPI();
-  const listDelivery = delivery.filter(deliver => deliver.status === 'active');
+  const listDelivery = delivery.filter(deliver => deliver.activo === true);
+  console.log(listDelivery)
 
   const handleNavigation = (screen) => {
     navigation.navigate(screen);
@@ -58,9 +59,9 @@ const AdminScreen = ({ navigation }) => {
         ) : (
           <FlatList
             data={listDelivery}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item._id}
             renderItem={renderDeliveryItem}
-            scrollEnabled={false}
+            scrollEnabled={true}
             contentContainerStyle={styles.listContent}
           />
         )}

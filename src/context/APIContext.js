@@ -39,21 +39,12 @@ export const APIProvider = ({ children }) => {
     }
   }, [API_URL]);
 
-  // Obtener repartidores
-  const fetchDeliverys = useCallback(async () => {
-    try {
-      const response = await axios.get(`${API_URL}/deliverys`);
-      setDeliverys(response.data);
-    } catch (error) {
-      console.error('Error fetching deliverys:', error);
-    }
-  }, [API_URL]);
+
 
   // Cargar datos iniciales
   useEffect(() => {
     fetchOrders();
-    fetchDeliverys();
-  }, [fetchOrders, fetchDeliverys]);
+  }, [fetchOrders ]);
 
   // Asignar orden
   const assignOrder = async (orderId, deliveryId) => {
@@ -97,17 +88,22 @@ export const APIProvider = ({ children }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-      });   
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null); // Capturar error si no es JSON
+        throw new Error(errorData?.message || `Error ${response.status}`);
+      }
+
       const data = await response.json();
 
-
-      if (data.token) {
-        await SecureStore.setItemAsync('authToken', data.token);
+      if (data.user.token) {
+        await SecureStore.setItemAsync('authToken', data.user.token);
+        fetchDeliverys()
         setIsAuthenticated(true);
-                // Opcional: Guardar datos del usuario en el estado o contexto
         setUser(data.user);
       }
-      return response.data;
+      return data;
     } catch (error) {
       await SecureStore.deleteItemAsync('authToken');
       setIsAuthenticated(false);
@@ -120,14 +116,64 @@ export const APIProvider = ({ children }) => {
   // Logout
   const Logout = async () => {
     try {
+      const token = await SecureStore.getItemAsync('authToken');
+  
+      if (!token) {
+        console.log("No hay token almacenado");
+        return;
+      }
+  
+      const response = await fetch(`${API_URL}user/logout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        cache: "no-store",
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || `Error ${response.status}`);
+      }
+  
       await SecureStore.deleteItemAsync('authToken');
+      
       setIsAuthenticated(false);
+      setUser(null);
+      setOrders([]);
+      setDeliverys([]);
+  
+      console.log("Sesión cerrada correctamente");
+  
     } catch (error) {
       console.error('Error during logout:', error);
     }
   };
+  
+  // Obtener repartidores
+  const fetchDeliverys = async () => {
+    const token = await SecureStore.getItemAsync('authToken');
+    try {
+      const response = await fetch(`${API_URL}user/delivery`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        cache: "no-store", // 
+      });
+      const data = await response.json();
+      console.log('delivers', data)
+     
 
-  //update user password
+      setDeliverys(data);
+    } catch (error) {
+      console.error('Error fetching deliverys:', error);
+    }
+  };
 
   return (
     <APIContext.Provider value={{

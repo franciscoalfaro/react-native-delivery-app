@@ -71,6 +71,7 @@ const DeliveryScreen = () => {
               renderItem={renderOrderItem}
               contentContainerStyle={styles.listContent}
               showsVerticalScrollIndicator={false}
+              scrollEnabled={true}
             />
           )}
         </View>

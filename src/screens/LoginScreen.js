@@ -31,9 +31,7 @@ const LoginScreen = ({ navigation }) => {
       
       // Manejar respuesta exitosa
       if (response && response.user) {
-        // Aquí podrías hacer algo con los datos del usuario
-        console.log('Usuario autenticado:', response.user);
-        
+        // Aquí podrías hacer algo con los datos del usuario        
 
       }
       
