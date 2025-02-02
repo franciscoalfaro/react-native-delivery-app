@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useAPI } from '../context/APIContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,7 +7,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 const AdminScreen = ({ navigation }) => {
   const { delivery } = useAPI();
   const listDelivery = delivery.filter(deliver => deliver.activo === true);
-  console.log(listDelivery)
 
   const handleNavigation = (screen) => {
     navigation.navigate(screen);
@@ -37,36 +36,39 @@ const AdminScreen = ({ navigation }) => {
     </View>
   );
 
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <Icon name="users" size={28} color="white" />
+      <Text style={styles.title}>Gestión de Repartidores</Text>
+      <Text style={styles.subtitle}>
+        {listDelivery.length} repartidores activos
+      </Text>
+    </View>
+  );
+
+  const renderEmptyState = () => (
+    <View style={styles.emptyState}>
+      <Icon name="exclamation-circle" size={50} color="rgba(255,255,255,0.3)" />
+      <Text style={styles.emptyStateText}>No hay repartidores activos</Text>
+      <Text style={styles.emptyStateSubtext}>Crea nuevos repartidores para comenzar</Text>
+    </View>
+  );
+
   return (
     <LinearGradient colors={['#ff7e5f', '#feb47b']} style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Icon name="users" size={28} color="white" />
-          <Text style={styles.title}>Gestión de Repartidores</Text>
-          <Text style={styles.subtitle}>
-            {listDelivery.length} repartidores activos
-          </Text>
-        </View>
+      {/* Contenedor principal */}
+      <View style={styles.mainContainer}>
+        {/* FlatList para la lista de repartidores */}
+        <FlatList
+          data={listDelivery}
+          keyExtractor={item => item._id}
+          renderItem={renderDeliveryItem}
+          ListHeaderComponent={renderHeader}
+          ListEmptyComponent={renderEmptyState}
+          contentContainerStyle={styles.listContent}
+        />
 
-        {/* Delivery List */}
-        {listDelivery.length === 0 ? (
-          <View style={styles.emptyState}>
-            <Icon name="exclamation-circle" size={50} color="rgba(255,255,255,0.3)" />
-            <Text style={styles.emptyStateText}>No hay repartidores activos</Text>
-            <Text style={styles.emptyStateSubtext}>Crea nuevos repartidores para comenzar</Text>
-          </View>
-        ) : (
-          <FlatList
-            data={listDelivery}
-            keyExtractor={item => item._id}
-            renderItem={renderDeliveryItem}
-            scrollEnabled={true}
-            contentContainerStyle={styles.listContent}
-          />
-        )}
-
-        {/* Action Buttons */}
+        {/* Botones de acción fijos en la parte inferior */}
         <View style={styles.actionsContainer}>
           <TouchableOpacity 
             style={[styles.actionButton, styles.primaryButton]}
@@ -92,7 +94,7 @@ const AdminScreen = ({ navigation }) => {
             <Text style={styles.buttonText}>Gestión de Órdenes</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
     </LinearGradient>
   );
 };
@@ -101,14 +103,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
+  mainContainer: {
     flex: 1,
-    justifyContent: 'center',
     padding: 25,
   },
   header: {
     alignItems: 'center',
     marginBottom: 40,
+    paddingVertical: 15,
+    marginTop: 20,
   },
   title: {
     fontSize: 26,
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   actionsContainer: {
-    marginTop: 25,
+    marginTop: 20,
     gap: 15,
   },
   actionButton: {
@@ -223,7 +226,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   listContent: {
-    paddingBottom: 10,
+    flexGrow: 1, // Asegura que el contenido de la lista ocupe el espacio disponible
   },
 });
 

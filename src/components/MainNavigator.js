@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthenticatedTabs from './AuthenticatedTabs';
 import { useAPI } from '../context/APIContext';
@@ -9,11 +9,16 @@ const Stack = createStackNavigator();
 const MainNavigator = () => {
   const { isAuthenticated, setIsAuthenticated } = useAPI();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsAuthenticated(false);
+    await SecureStore.deleteItemAsync('authToken');
+
     // Aquí deberías agregar la lógica para limpiar el token de autenticación
   };
 
+  useEffect(() => {
+    //handleLogout();
+  }, []);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -37,9 +42,9 @@ const MainNavigator = () => {
       ) : (
 
         <Stack.Screen name="Unauthenticated" component={UnauthenticatedTabs}
-        options={{
-          headerShown: false,
-        }}/>
+          options={{
+            headerShown: false,
+          }} />
 
       )}
     </Stack.Navigator>

@@ -166,7 +166,6 @@ export const APIProvider = ({ children }) => {
         cache: "no-store", // 
       });
       const data = await response.json();
-      console.log('delivers', data)
      
 
       setDeliverys(data);

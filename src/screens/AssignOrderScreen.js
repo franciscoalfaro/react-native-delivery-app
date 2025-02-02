@@ -16,7 +16,7 @@ const AssignOrderScreen = () => {
 
   const handleAssignOrder = async () => {
     if (!orderId || !selectedDelivery) return;
-    
+
     setIsLoading(true);
     try {
       await assignOrder(orderId, selectedDelivery);
@@ -61,22 +61,24 @@ const AssignOrderScreen = () => {
             {/* Delivery Picker */}
             <View style={styles.pickerContainer}>
               <Icon name="user" size={20} color="#666" style={styles.icon} />
-              <Picker
-                selectedValue={selectedDelivery}
-                onValueChange={setSelectedDelivery}
-                style={styles.picker}
-                dropdownIconColor="#666"
-              >
-                <Picker.Item label="Selecciona un repartidor" value="" />
-                {listDelivery.map(delivery => (
-                  <Picker.Item 
-                    key={delivery._id} 
-                    label={delivery.name} 
-                    value={delivery._id} 
-                    
-                  />
-                ))}
-              </Picker>
+              <View style={styles.pickerWrapper}>
+                <Picker
+                  selectedValue={selectedDelivery || ''}  // Fallback to an empty string if selectedDelivery is null
+                  onValueChange={setSelectedDelivery}
+                  style={styles.picker}
+                  dropdownIconColor="#666"
+                  mode="dropdown" // Modo dropdown para iOS
+                >
+                  <Picker.Item label="Selecciona un repartidor" value={delivery.id}/>
+                  {listDelivery.map(delivery => (
+                    <Picker.Item
+                      key={delivery.id}  // Ensure the id is a string if it's not already
+                      label={delivery.name}
+                      value={delivery.id}
+                    />
+                  ))}
+                </Picker>
+              </View>
             </View>
 
             {/* Validation Messages */}
@@ -87,7 +89,7 @@ const AssignOrderScreen = () => {
             )}
 
             {/* Submit Button */}
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.button, (!orderId || !selectedDelivery) && styles.disabledButton]}
               onPress={handleAssignOrder}
               disabled={!orderId || !selectedDelivery || isLoading}
@@ -170,9 +172,13 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 16,
   },
+  pickerWrapper: {
+    flex: 1,
+    height: 45,
+    justifyContent: 'center',
+  },
   picker: {
     flex: 1,
-    height: 50,
     color: '#333',
   },
   button: {
