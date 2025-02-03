@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AuthenticatedTabs from './AuthenticatedTabs';
 import { useAPI } from '../context/APIContext';
 import UnauthenticatedTabs from './UnauthenticatedTabs';
+import AssignOrderScreen from '../screens/AssignOrderScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,36 +18,25 @@ const MainNavigator = () => {
   };
 
   useEffect(() => {
-    //handleLogout();
+    handleLogout();
   }, []);
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#3b82f6',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-    >
+    <Stack.Navigator screenOptions={{
+      headerStyle: { backgroundColor: '#3b82f6', },
+      headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'bold', },
+    }} >
       {isAuthenticated ? (
-        <Stack.Screen
-          name="Authenticated"
-          component={AuthenticatedTabs}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <>
+          <Stack.Screen name="Authenticated" component={AuthenticatedTabs} options={{ headerShown: false, }} />
+          <Stack.Screen name="AssignOrder" component={AssignOrderScreen} options={{ headerShown: false, }} />
+        </>
+
       ) : (
 
-        <Stack.Screen name="Unauthenticated" component={UnauthenticatedTabs}
-          options={{
-            headerShown: false,
-          }} />
+        <Stack.Screen name="Unauthenticated" component={UnauthenticatedTabs} options={{ headerShown: false, }} />
 
       )}
+
     </Stack.Navigator>
   );
 };

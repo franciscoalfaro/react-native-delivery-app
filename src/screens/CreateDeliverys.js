@@ -2,31 +2,30 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useAPI } from '../context/APIContext';
 
 const CreateDeliverys = () => {
+  const { AddDelivery } = useAPI();
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [nameDelivery, setNameDelivery] = useState('');
   const [surnameDelivery, setSurnameDelivery] = useState('');
-  const [location, setLocation] = useState({
-    latitude: 19.432608,
-    longitude: -99.133209,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+  const [emailDelivery, setEmailDelivery] = useState('');
+
 
   const handleCreateDelivery = async () => {
-    if (!nameDelivery || !surnameDelivery) return;
+    if (!nameDelivery || !surnameDelivery || !emailDelivery) return;
     
     setIsLoading(true);
     try {
       // Aquí iría tu llamada a la API
-      // await AddDelivery(nameDelivery, surnameDelivery, location);
+      await AddDelivery(nameDelivery, surnameDelivery, emailDelivery);
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
         setNameDelivery('');
         setSurnameDelivery('');
+        setEmailDelivery('')
       }, 2000);
     } finally {
       setIsLoading(false);
@@ -51,30 +50,23 @@ const CreateDeliverys = () => {
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
               <Icon name="user-o" size={20} color="#666" style={styles.inputIcon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Nombre"
-                placeholderTextColor="#999"
-                value={nameDelivery}
-                onChangeText={setNameDelivery}
-              />
+              <TextInput style={styles.input} placeholder="Nombre" placeholderTextColor="#999" value={nameDelivery} onChangeText={setNameDelivery} />
             </View>
 
             <View style={styles.inputContainer}>
               <Icon name="address-card-o" size={20} color="#666" style={styles.inputIcon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Apellido"
-                placeholderTextColor="#999"
-                value={surnameDelivery}
-                onChangeText={setSurnameDelivery}
-              />
+              <TextInput style={styles.input} placeholder="Apellido" placeholderTextColor="#999" value={surnameDelivery} onChangeText={setSurnameDelivery} />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Icon name="envelope" size={20} color="#666" style={styles.inputIcon} />
+              <TextInput style={styles.input} placeholder="email" placeholderTextColor="#999" keyboardType="email-address" value={emailDelivery} onChangeText={setEmailDelivery} />
             </View>
 
 
 
             {/* Mensajes de validación */}
-            {(!nameDelivery || !surnameDelivery) && (
+            {(!nameDelivery || !surnameDelivery || !emailDelivery) && (
               <Text style={styles.errorText}>
                 <Icon name="exclamation-circle" /> Completa todos los campos
               </Text>
@@ -83,12 +75,12 @@ const CreateDeliverys = () => {
 
           {/* Botón de acción */}
           <TouchableOpacity 
-            style={[styles.createButton, (!nameDelivery || !surnameDelivery) && styles.disabledButton]}
+            style={[styles.createButton, (!nameDelivery || !surnameDelivery || !emailDelivery) && styles.disabledButton]}
             onPress={handleCreateDelivery}
-            disabled={!nameDelivery || !surnameDelivery || isLoading}
+            disabled={!nameDelivery || !surnameDelivery || !emailDelivery ||  isLoading}
           >
             <LinearGradient
-              colors={(!nameDelivery || !surnameDelivery) ? ['#f0f4ff', '#f0f4ff'] : ['#ffffff', '#f0f4ff']}
+              colors={(!nameDelivery || !surnameDelivery || !emailDelivery) ? ['#f0f4ff', '#f0f4ff'] : ['#ffffff', '#f0f4ff']}
               style={styles.buttonGradient}
             >
               {isLoading ? (

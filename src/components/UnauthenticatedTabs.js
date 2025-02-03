@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LoginScreen from '../screens/LoginScreen';
@@ -8,6 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 const Tab = createBottomTabNavigator();
 
 const UnauthenticatedTabs = () => {
+
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

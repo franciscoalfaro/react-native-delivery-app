@@ -13,6 +13,7 @@ const ProfileScreen = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  
   const handleChangePassword = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
       setErrorMessage('Todos los campos son requeridos');

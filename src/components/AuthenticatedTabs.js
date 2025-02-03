@@ -3,16 +3,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AdminScreen from '../screens/AdminScreen';
 import DeliveryScreen from '../screens/DeliveryScreen';
-import AssignOrderScreen from '../screens/AssignOrderScreen';
+
 import CreateDeliverys from '../screens/CreateDeliverys';
 import { useAPI } from '../context/APIContext';
 import ProfileScreen from '../screens/ProfileScreen';
 import { LinearGradient } from 'expo-linear-gradient';
+import AvailabilityScreen from '../screens/AvailabilityScreen';
 
 const Tab = createBottomTabNavigator();
 
 const AuthenticatedTabs = () => {
   const { Logout, user } = useAPI();
+  console.log(user)
 
   return (
     <Tab.Navigator
@@ -29,6 +31,8 @@ const AuthenticatedTabs = () => {
           } else if (route.name === 'Create') {
             iconName = 'user-plus';
           } else if (route.name === 'Profile') {
+            iconName = 'user';
+          } else if (route.name === 'Status') {
             iconName = 'user';
           } else if (route.name === 'Logout') {
             iconName = 'sign-out';
@@ -78,7 +82,6 @@ const AuthenticatedTabs = () => {
         <>
           <Tab.Screen name="Inicio" component={AdminScreen} />
           <Tab.Screen name="Delivery" component={DeliveryScreen} />
-          <Tab.Screen name="AssignOrder" component={AssignOrderScreen} />
           <Tab.Screen name="Create" component={CreateDeliverys} />
         </>
       )}
@@ -87,21 +90,14 @@ const AuthenticatedTabs = () => {
       {user?.role === 'delivery' && (
         <>
           <Tab.Screen name="Delivery" component={DeliveryScreen} />
+          
         </>
       )}
 
       {/* Opciones comunes para ambos roles */}
+      <Tab.Screen name="Status" component={AvailabilityScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen
-        name="Logout"
-        component={AdminScreen} // Puedes usar cualquier componente aquí
-        listeners={{
-          tabPress: (e) => {
-            e.preventDefault(); // Evita la navegación
-            Logout(); // Ejecuta el logout
-          },
-        }}
-      />
+      <Tab.Screen name="Logout" component={AdminScreen} listeners={{ tabPress: (e) => {  e.preventDefault(); Logout(); },}}/>
     </Tab.Navigator>
   );
 };

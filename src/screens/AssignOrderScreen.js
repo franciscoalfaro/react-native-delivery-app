@@ -1,29 +1,48 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useAPI } from '../context/APIContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 
-const AssignOrderScreen = () => {
-  const [orderId, setOrderId] = useState('');
+const AssignOrderScreen = ({route}) => {
+
+  const [orderId, setOrderId] = useState([]);
   const { delivery, assignOrder } = useAPI();
   const [selectedDelivery, setSelectedDelivery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const navigation = useNavigation();
+
+  const { item, orderNumber } = route.params;
+
+  useEffect(() => {
+    if (item) {
+      setOrderId(item);
+    }
+  }, [item]);
 
   const listDelivery = delivery.map(deliver => ({ id: deliver._id, name: deliver.name }));
 
   const handleAssignOrder = async () => {
     if (!orderId || !selectedDelivery) return;
-
+  
     setIsLoading(true);
     try {
       await assignOrder(orderId, selectedDelivery);
+      navigation.navigate('Authenticated');
       setSuccess(true);
+      
+      // Mostrar mensaje de orden asignada con Alert
+      Alert.alert('Éxito', 'La orden fue asignada correctamente');
+      
       setTimeout(() => setSuccess(false), 2000);
       setOrderId('');
       setSelectedDelivery('');
+    } catch (error) {
+      // Mostrar mensaje de error en caso de fallo
+      Alert.alert('Error', 'Hubo un problema al asignar la orden');
     } finally {
       setIsLoading(false);
     }
@@ -41,21 +60,20 @@ const AssignOrderScreen = () => {
             <Icon name="tasks" size={28} color="white" />
             <Text style={styles.title}>Asignar Pedidos</Text>
             <Text style={styles.subtitle}>Asigna órdenes a tus repartidores</Text>
+            <Text style={styles.subtitle}>Pedido #{orderNumber}</Text>
           </View>
 
           {/* Form */}
           <View style={styles.form}>
             {/* Order ID Input */}
+            <View style={[styles.inputContainer,  { display: 'none' }]}>
+              <Icon name="hashtag" size={20} color="#666" style={styles.icon} />
+              <TextInput style={styles.input} editable={false} placeholder="Número de orden" placeholderTextColor="#999" value={orderId} onChangeText={setOrderId} keyboardType="alphanumeric" />
+            </View>
+
             <View style={styles.inputContainer}>
               <Icon name="hashtag" size={20} color="#666" style={styles.icon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Número de orden"
-                placeholderTextColor="#999"
-                value={orderId}
-                onChangeText={setOrderId}
-                keyboardType="numeric"
-              />
+              <TextInput style={styles.input} editable={false} placeholder="Número de orden" placeholderTextColor="#999" value={orderNumber} keyboardType="alphanumeric" />
             </View>
 
             {/* Delivery Picker */}

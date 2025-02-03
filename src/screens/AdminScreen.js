@@ -86,13 +86,7 @@ const AdminScreen = ({ navigation }) => {
             <Text style={styles.buttonText}>Repartos Activos</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity 
-            style={[styles.actionButton, styles.accentButton]}
-            onPress={() => handleNavigation('AssignOrder')}
-          >
-            <Icon name="list-alt" size={20} color="white" />
-            <Text style={styles.buttonText}>Gestión de Órdenes</Text>
-          </TouchableOpacity>
+
         </View>
       </View>
     </LinearGradient>
