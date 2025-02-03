@@ -36,6 +36,44 @@ export const APIProvider = ({ children }) => {
     }
   }, [isAuthenticated]);
 
+  const changePassword = useCallback(async (currentPassword, newPassword) => {
+    const token = await SecureStore.getItemAsync('authToken');
+
+    if (!token) {
+      console.error("No hay token disponible. El usuario debe iniciar sesión nuevamente.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}user/update`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ password: newPassword , currentPassword:currentPassword}), // 🔹 Se envía el nuevo password
+        cache: "no-store",
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        console.log(data.status)
+        console.log("Contraseña cambiada exitosamente");
+        // 🔹 Puedes agregar aquí una notificación o cerrar sesión si es necesario
+      } else {
+        console.error("Error al cambiar contraseña:", data?.message || "Error desconocido");
+      }
+
+    } catch (error) {
+      console.error('Error cambiando la contraseña:', error);
+    }
+
+  }, [API_URL]);
+
+
+
   // Listar ordenes
   const fetchOrders = useCallback(async () => {
     const token = await SecureStore.getItemAsync('authToken');
@@ -56,6 +94,8 @@ export const APIProvider = ({ children }) => {
     }
   }, [API_URL]);
 
+
+
   // Obtener repartidores
   const fetchDeliverys = useCallback(async () => {
     const token = await SecureStore.getItemAsync('authToken');
@@ -75,6 +115,7 @@ export const APIProvider = ({ children }) => {
       console.error('Error fetching deliverys:', error);
     }
   }, [API_URL]);
+
 
   // Asignar orden
   const assignOrder = useCallback(async (orderId, deliveryId) => {
@@ -150,8 +191,13 @@ export const APIProvider = ({ children }) => {
   const Logout = async () => {
     try {
       const token = await SecureStore.getItemAsync('authToken');
+
       if (!token) {
-        console.log("No hay token almacenado");
+        console.log("No hay token almacenado, cerrando sesión localmente.");
+        setIsAuthenticated(false);
+        setUser(null);
+        setOrders([]);
+        setDeliverys([]);
         return;
       }
 
@@ -166,10 +212,16 @@ export const APIProvider = ({ children }) => {
       });
 
       if (!response.ok) {
+        // Si la sesión ya está expirada, borra el token localmente sin mostrar error
         const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.message || `Error ${response.status}`);
+        if (response.status === 401) { // 401 -> No autorizado (sesión expirada)
+          console.log("Token expirado, cerrando sesión localmente.");
+        } else {
+          throw new Error(errorData?.message || `Error ${response.status}`);
+        }
       }
 
+      // Borra el token y actualiza el estado
       await SecureStore.deleteItemAsync('authToken');
       setIsAuthenticated(false);
       setUser(null);
@@ -177,9 +229,10 @@ export const APIProvider = ({ children }) => {
       setDeliverys([]);
       console.log("Sesión cerrada correctamente");
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error('Error durante el logout:', error);
     }
   };
+
 
   return (
     <APIContext.Provider value={{
@@ -192,6 +245,7 @@ export const APIProvider = ({ children }) => {
       Logout,
       fetchOrders,
       fetchDeliverys,
+      changePassword,
       user
     }}>
       {children}

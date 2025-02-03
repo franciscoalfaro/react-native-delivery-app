@@ -9,6 +9,8 @@ const Tab = createBottomTabNavigator();
 
 const UnauthenticatedTabs = () => {
 
+  
+
 
   return (
     <Tab.Navigator
@@ -34,9 +36,6 @@ const UnauthenticatedTabs = () => {
         ),
         // Estilos personalizados
         tabBarStyle: {
-          //height: 80, // Altura de la barra
-          ///paddingBottom: 10, // Espaciado inferior
-          //paddingTop: 10, // Espaciado superior
           shadowColor: '#000', // Sombra
           shadowOffset: { width: 0, height: -2 },
           shadowOpacity: 0.1,

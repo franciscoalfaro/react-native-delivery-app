@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAPI } from '../context/APIContext';
 
 const ProfileScreen = () => {
-  const { user, Logout } = useAPI(); // Asume que tienes un objeto "user" en tu contexto
+  const { user, Logout,changePassword } = useAPI(); // Asume que tienes un objeto "user" en tu contexto
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,7 +31,7 @@ const ProfileScreen = () => {
 
     try {
       // Aquí iría la lógica para cambiar la contraseña
-      // await changePassword(currentPassword, newPassword);
+      await changePassword(currentPassword, newPassword);
       setSuccessMessage('Contraseña cambiada con éxito');
       setCurrentPassword('');
       setNewPassword('');

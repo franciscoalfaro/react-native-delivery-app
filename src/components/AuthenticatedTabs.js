@@ -14,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 const AuthenticatedTabs = () => {
   const { Logout, user } = useAPI();
-  console.log(user)
+
 
   return (
     <Tab.Navigator
