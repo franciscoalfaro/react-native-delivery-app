@@ -4,6 +4,7 @@ import AuthenticatedTabs from './AuthenticatedTabs';
 import { useAPI } from '../context/APIContext';
 import UnauthenticatedTabs from './UnauthenticatedTabs';
 import AssignOrderScreen from '../screens/AssignOrderScreen';
+import CreateOrderScreen from '../screens/CreateOrderScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ const MainNavigator = () => {
         <>
           <Stack.Screen name="Authenticated" component={AuthenticatedTabs} options={{ headerShown: false, }} />
           <Stack.Screen name="AssignOrder" component={AssignOrderScreen} options={{ headerShown: false, }} />
+          <Stack.Screen name="Order" component={CreateOrderScreen} options={{ headerShown: false, }} />
         </>
 
       ) : (

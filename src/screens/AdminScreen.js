@@ -21,13 +21,13 @@ const AdminScreen = ({ navigation }) => {
           <Text style={[styles.statusText, { color: '#3b82f6' }]}>Activo</Text>
         </View>
       </View>
-      
+
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
           <Icon name="check-circle" size={16} color="#059669" />
           <Text style={styles.statText}>{item.completedDeliveries} entregas</Text>
         </View>
-        
+
         <View style={styles.statItem}>
           <Icon name="star" size={16} color="#f59e0b" />
           <Text style={styles.statText}>{item.rating}/5.0</Text>
@@ -70,22 +70,23 @@ const AdminScreen = ({ navigation }) => {
 
         {/* Botones de acción fijos en la parte inferior */}
         <View style={styles.actionsContainer}>
-          <TouchableOpacity 
-            style={[styles.actionButton, styles.primaryButton]}
-            onPress={() => handleNavigation('Create')}
-          >
+          <TouchableOpacity style={[styles.actionButton, styles.primaryButton]} onPress={() => handleNavigation('Create')}>
             <Icon name="user-plus" size={20} color="white" />
             <Text style={styles.buttonText}>Nuevo Repartidor</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.actionButton, styles.secondaryButton]}
-            onPress={() => handleNavigation('Delivery')}
-          >
+
+          <TouchableOpacity style={[styles.actionButton, styles.secondaryButton]} onPress={() => handleNavigation('Order')}>
+            <Icon name="truck" size={20} color="white" />
+            <Text style={styles.buttonText}>Crear Pedido</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.actionButton, styles.secondaryButton]} onPress={() => handleNavigation('Delivery')}>
             <Icon name="truck" size={20} color="white" />
             <Text style={styles.buttonText}>Repartos Activos</Text>
           </TouchableOpacity>
-          
+
+
+
 
         </View>
       </View>

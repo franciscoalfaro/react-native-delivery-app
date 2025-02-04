@@ -7,6 +7,7 @@ const APIContext = createContext();
 
 export const APIProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
+  const [myorders, setMyOrders] = useState([]);
   const [delivery, setDeliverys] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,7 @@ export const APIProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchOrders();
+      fetchMyOrders();
       fetchDeliverys();
     }
   }, [isAuthenticated]);
@@ -52,7 +54,7 @@ export const APIProvider = ({ children }) => {
           'Content-Type': 'application/json',
           'Authorization': token
         },
-        body: JSON.stringify({ password: newPassword , currentPassword:currentPassword}), // 🔹 Se envía el nuevo password
+        body: JSON.stringify({ password: newPassword, currentPassword: currentPassword }), // 🔹 Se envía el nuevo password
         cache: "no-store",
       });
 
@@ -94,6 +96,27 @@ export const APIProvider = ({ children }) => {
     }
   }, [API_URL]);
 
+  // Listar ordenes
+  const fetchMyOrders = useCallback(async () => {
+    const token = await SecureStore.getItemAsync('authToken');
+    try {
+      const response = await fetch(`${API_URL}order/mylist`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        cache: "no-store",
+      });
+      console.log('my orders',data)
+      const data = await response.json();
+      console.log(data)
+      setMyOrders(data.orders);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  }, [API_URL]);
 
 
   // Obtener repartidores
@@ -233,6 +256,74 @@ export const APIProvider = ({ children }) => {
     }
   };
 
+  const createOrder = useCallback(async (formData) => {
+    const token = await SecureStore.getItemAsync('authToken');
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_URL}order/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
+        body: JSON.stringify({ formData }),
+      });
+
+      const data = await response.json();
+      console.log(data.order)
+      if (data.status === 'success') {
+        fetchDeliverys();
+        fetchOrders();
+      }
+      return data;
+
+
+
+    } catch (error) {
+      console.error('Error at create order:', error);
+      throw error;
+    }
+
+
+
+  }, [API_URL, fetchOrders])
+
+
+
+  const updateDeliveryAvailability = useCallback(async (activo) => {
+    const token = await SecureStore.getItemAsync('authToken');
+
+    if (!token) {
+      console.error("No hay token disponible. El usuario debe iniciar sesión nuevamente.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}user/update`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ activo }), // 🔹 Se envía el nuevo password
+        cache: "no-store",
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        console.log(data.status)
+        console.log("estado actualizado de forma correcta");
+        // 🔹 Puedes agregar aquí una notificación o cerrar sesión si es necesario
+      } else {
+        console.error("Error al cambiar estado:", data?.message || "Error desconocido");
+      }
+
+    } catch (error) {
+      console.error('Error cambiando el estado:', error);
+    }
+
+  }, [API_URL]);
+
 
   return (
     <APIContext.Provider value={{
@@ -244,9 +335,13 @@ export const APIProvider = ({ children }) => {
       Login,
       Logout,
       fetchOrders,
+      fetchMyOrders,
       fetchDeliverys,
       changePassword,
-      user
+      createOrder,
+      myorders,
+      user,
+      updateDeliveryAvailability
     }}>
       {children}
     </APIContext.Provider>

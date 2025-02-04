@@ -28,6 +28,8 @@ const AuthenticatedTabs = () => {
             iconName = 'truck';
           } else if (route.name === 'AssignOrder') {
             iconName = 'list-alt';
+          } else if (route.name === 'Order') {
+            iconName = 'list-alt';
           } else if (route.name === 'Create') {
             iconName = 'user-plus';
           } else if (route.name === 'Profile') {
@@ -45,7 +47,7 @@ const AuthenticatedTabs = () => {
             colors={['#ff7e5f', '#feb47b']} // Gradiente azul
             start={{ x: 0, y: 1 }} // Inicio del gradiente (izquierda)
             end={{ x: 0, y: 0 }} // Fin del gradiente (derecha)
-            style={{ flex: 1}} // Bordes redondeados
+            style={{ flex: 1 }} // Bordes redondeados
           />
         ),
         tabBarStyle: {
@@ -59,7 +61,7 @@ const AuthenticatedTabs = () => {
           elevation: 10, // Sombra en Android
           overflow: 'hidden', // Para que el gradiente no se salga de los bordes
         },
-        
+
         tabBarActiveTintColor: '#ffffff', // Color activo (blanco)
         tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)', // Color inactivo (blanco semitransparente)
         tabBarLabelStyle: {
@@ -90,14 +92,14 @@ const AuthenticatedTabs = () => {
       {user?.role === 'delivery' && (
         <>
           <Tab.Screen name="Delivery" component={DeliveryScreen} />
-          
+
         </>
       )}
 
       {/* Opciones comunes para ambos roles */}
       <Tab.Screen name="Status" component={AvailabilityScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Logout" component={AdminScreen} listeners={{ tabPress: (e) => {  e.preventDefault(); Logout(); },}}/>
+      <Tab.Screen name="Logout" component={AdminScreen} listeners={{ tabPress: (e) => { e.preventDefault(); Logout(); }, }} />
     </Tab.Navigator>
   );
 };

@@ -30,7 +30,7 @@ const AvailabilityScreen = () => {
     
     try {
       setIsUpdating(true);
-      await updateDeliveryAvailability(user._id, localStatus);
+      await updateDeliveryAvailability(localStatus);
       Alert.alert('Éxito', 'Estado actualizado correctamente');
     } catch (error) {
       Alert.alert('Error', error.message || 'Error al actualizar el estado');
