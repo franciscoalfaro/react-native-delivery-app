@@ -16,7 +16,9 @@ const CreateOrderScreen = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+
+  
 
   const validateForm = () => {
     const newErrors = {};
@@ -51,7 +53,7 @@ const CreateOrderScreen = () => {
       Alert.alert('Éxito', 'Orden creada correctamente', [
         { text: 'OK', onPress: () => navigation.goBack() }
       ]);
-     
+
       setFormData({  // Reset form
         orderNumber: '',
         customerName: '',
@@ -59,7 +61,7 @@ const CreateOrderScreen = () => {
         email: '',
         phone: ''
       });
-     
+
     } catch (error) {
       Alert.alert('Error', error.message || 'Error al crear la orden');
     } finally {
@@ -83,7 +85,7 @@ const CreateOrderScreen = () => {
               placeholder="Número de Orden"
               placeholderTextColor="#999"
               value={formData.orderNumber}
-              onChangeText={(text) => setFormData({...formData, orderNumber: text})}
+              onChangeText={(text) => setFormData({ ...formData, orderNumber: text })}
             />
           </View>
           {errors.orderNumber && <Text style={styles.errorText}>{errors.orderNumber}</Text>}
@@ -95,7 +97,7 @@ const CreateOrderScreen = () => {
               placeholder="Nombre del Cliente"
               placeholderTextColor="#999"
               value={formData.customerName}
-              onChangeText={(text) => setFormData({...formData, customerName: text})}
+              onChangeText={(text) => setFormData({ ...formData, customerName: text })}
             />
           </View>
           {errors.customerName && <Text style={styles.errorText}>{errors.customerName}</Text>}
@@ -107,7 +109,7 @@ const CreateOrderScreen = () => {
               placeholder="Dirección"
               placeholderTextColor="#999"
               value={formData.address}
-              onChangeText={(text) => setFormData({...formData, address: text})}
+              onChangeText={(text) => setFormData({ ...formData, address: text })}
               multiline
             />
           </View>
@@ -122,7 +124,7 @@ const CreateOrderScreen = () => {
               keyboardType="email-address"
               autoCapitalize="none"
               value={formData.email}
-              onChangeText={(text) => setFormData({...formData, email: text})}
+              onChangeText={(text) => setFormData({ ...formData, email: text })}
             />
           </View>
           {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
@@ -135,7 +137,7 @@ const CreateOrderScreen = () => {
               placeholderTextColor="#999"
               keyboardType="phone-pad"
               value={formData.phone}
-              onChangeText={(text) => setFormData({...formData, phone: text})}
+              onChangeText={(text) => setFormData({ ...formData, phone: text })}
             />
           </View>
           {errors.phone && <Text style={styles.errorText}>{errors.phone}</Text>}
@@ -151,9 +153,19 @@ const CreateOrderScreen = () => {
               <>
                 <Icon name="add-circle" size={24} color="white" />
                 <Text style={styles.buttonText}>Crear Orden</Text>
+
               </>
             )}
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.backButton]}
+            onPress= {() => navigation.goBack()}
+          >
+            <Icon name="arrow-back" size={24} color="white" />
+            <Text style={styles.buttonText}>Volver al Inicio</Text>
+          </TouchableOpacity>
+
         </View>
       </KeyboardAvoidingView>
     </LinearGradient>
@@ -201,6 +213,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     marginTop: 25,
+  },
+  backButton: {
+    backgroundColor: '#6b7280', // Color diferente para el botón de volver
+    marginTop: 10, // Espacio entre los botones
   },
   disabledButton: {
     opacity: 0.6,

@@ -322,7 +322,7 @@ export const APIProvider = ({ children }) => {
       console.error('Error cambiando el estado:', error);
     }
 
-  }, [API_URL]);
+  }, [API_URL,fetchDeliverys]);
 
 
   return (

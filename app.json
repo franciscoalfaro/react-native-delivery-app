@@ -4,8 +4,9 @@
     "name": "react-native-delivery-app",
     "slug": "react-native-delivery-app",
     "extra": {
-      "API_AND": "http://127.0.0.1:3012/api/",
-      "API_URL": "http://10.0.2.2:3012/api/"
+      "API_URL1": "http://10.0.2.2:3012/api/",
+      "API_URL": "http://127.0.0.1:3012/api/"
+
     },
     "version": "1.0.0",
     "orientation": "portrait",
